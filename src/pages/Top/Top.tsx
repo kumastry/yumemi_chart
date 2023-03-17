@@ -29,6 +29,8 @@ export const Top = (): JSX.Element => {
       const prefCode: string = e.target.id;
 
       if (e.target.checked as boolean) {
+        //チェックボックスを付ける
+        //prefecturePopulationに選択した都道府県を追加
         try {
           const response = await axios.get(
             `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
@@ -64,6 +66,24 @@ export const Top = (): JSX.Element => {
         } catch (error) {
           console.log(error);
         }
+      } else {
+        //チェックボックスを外す
+        //prefecturePopulationに選択した都道府県を削除
+        const tmpList: PrefecturePopulationByYear[] = [
+          ...prefecturePopulation,
+        ].map((element) => {
+          const tmpMap = new Map(Object.entries(element));
+          tmpMap.delete(e.target.name);
+
+          const tmpObj: PrefecturePopulationByYear = {} as any;
+          for (const [key, value] of tmpMap) {
+            tmpObj[key] = value;
+          }
+
+          console.log(tmpObj);
+          return tmpObj;
+        });
+        setPrefecturePopulation(tmpList);
       }
     };
 

@@ -12,9 +12,17 @@ import {
   YAxis,
 } from "recharts";
 
+interface PrefecturePopulationByYear {
+  year: number;
+  [prefecture: string]: number;
+}
+
 export const Top = (): JSX.Element => {
   const { status, data } = useFetchPrefectures();
-  const [prefecturePopulation, setPrefecturePopulation]: any = React.useState([]);
+  // const [prefCodeState, setPrefCodeState] = React.useState("0");
+  const [prefecturePopulation, setPrefecturePopulation] = React.useState<
+    PrefecturePopulationByYear[]
+  >([] as PrefecturePopulationByYear[]);
 
   const handleChange = (e: any): void => {
     const fetchPopulation = async (): Promise<void> => {
@@ -31,7 +39,28 @@ export const Top = (): JSX.Element => {
             }
           );
           // console.log(response.data.result.data);
-          setPrefecturePopulation(response.data.result.data);
+          // setPrefCodeState(prefCode);
+          const prefObject = response.data.result.data[0].data.map(
+            (element: any, key: any) => {
+              return {
+                ...prefecturePopulation[key],
+                year: element.year,
+                [e.target.name]: element.value,
+              };
+            }
+          );
+
+          // console.log(prefObject);
+          setPrefecturePopulation(prefObject);
+
+          /* {
+            year: 2020,
+          } */
+          /* const objectS = {...prefecturePopulation
+          ,[prefCode]:response.data.result.data
+        };
+          setPrefecturePopulation(objectS);
+          */
         } catch (error) {
           console.log(error);
         }
@@ -78,18 +107,31 @@ export const Top = (): JSX.Element => {
         <LineChart
           width={900}
           height={500}
-          data={prefecturePopulation[0].data}
+          data={prefecturePopulation}
           margin={{
-            top: 5,
-            right: 5,
-            left: 5,
-            bottom: 5,
+            top: 35,
+            right: 35,
+            left: 35,
+            bottom: 35,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" />
-          <YAxis dataKey="value" />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <YAxis dataKey="value" type="number" domain={[0, 15000000]} />
+          {Object.keys(prefecturePopulation[0])
+            .filter((pref) => {
+              return pref !== "year";
+            })
+            .map((prefName, key) => {
+              return (
+                <Line
+                  type="monotone"
+                  dataKey={prefName}
+                  stroke="#8884d8"
+                  key={key}
+                />
+              );
+            })}
 
           <Legend />
           <Tooltip />

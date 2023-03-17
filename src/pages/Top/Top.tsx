@@ -14,7 +14,7 @@ import {
 
 export const Top = (): JSX.Element => {
   const { status, data } = useFetchPrefectures();
-  const [prefectPopulation, setPrefectPopulation]: any = React.useState([]);
+  const [prefecturePopulation, setPrefecturePopulation]: any = React.useState([]);
 
   const handleChange = (e: any): void => {
     const fetchPopulation = async (): Promise<void> => {
@@ -31,7 +31,7 @@ export const Top = (): JSX.Element => {
             }
           );
           // console.log(response.data.result.data);
-          setPrefectPopulation(response.data.result.data);
+          setPrefecturePopulation(response.data.result.data);
         } catch (error) {
           console.log(error);
         }
@@ -74,11 +74,11 @@ export const Top = (): JSX.Element => {
         </ul>
       </form>
 
-      {prefectPopulation.length === 0 || (
+      {prefecturePopulation.length === 0 || (
         <LineChart
           width={900}
           height={500}
-          data={prefectPopulation[0].data}
+          data={prefecturePopulation[0].data}
           margin={{
             top: 5,
             right: 5,

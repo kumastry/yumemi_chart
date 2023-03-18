@@ -13,20 +13,12 @@ import {
   YAxis,
 } from "recharts";
 
-interface PrefecturePopulationByYear {
-  year: number;
-  [prefecture: string]: number;
-}
-
-type PopulationType = "total" | "young" | "workingAge" | "elderly";
-
-type PrefecturePopulationByYearWithType = {
-  [key in PopulationType]: PrefecturePopulationByYear[];
-};
-
-type PrefecturePopulationWithIdx = {
-  [key in PopulationType]: 0 | 1 | 2 | 3;
-};
+import type {
+  PrefecturePopulationByYear,
+  PopulationType,
+  PrefecturePopulationByYearWithType,
+  PrefecturePopulationWithIdx,
+} from "../../types/populationTypes";
 
 export const Top = (): JSX.Element => {
   const { status, data } = useFetchPrefectures();

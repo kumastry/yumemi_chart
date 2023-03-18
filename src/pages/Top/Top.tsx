@@ -15,7 +15,7 @@ import {
 
 import type {
   PrefecturePopulationByYear,
-  PopulationType,
+  PopulationCompositionType,
   PrefecturePopulationByYearWithType,
   PrefecturePopulationWithIdx,
 } from "../../types/populationTypes";
@@ -25,8 +25,8 @@ export const Top = (): JSX.Element => {
 
   const [prefecturePopulation, setPrefecturePopulation] =
     React.useState<PrefecturePopulationByYearWithType>({} as any);
-  const [poplationType, setPoplationType] =
-    React.useState<PopulationType>("total");
+  const [populationComposition, setPopulationComposition] =
+    React.useState<PopulationCompositionType>("total");
   const poplationIdx: PrefecturePopulationWithIdx = {
     total: 0,
     young: 1,
@@ -126,7 +126,7 @@ export const Top = (): JSX.Element => {
         const tmpObjWithType: PrefecturePopulationByYearWithType = {} as any;
         for (const [key, value] of Object.entries(
           prefecturePopulation
-        ) as Array<[PopulationType, PrefecturePopulationByYear[]]>) {
+        ) as Array<[PopulationCompositionType, PrefecturePopulationByYear[]]>) {
           const populationList: PrefecturePopulationByYear[] = value.map(
             (element: PrefecturePopulationByYear, key: any) => {
               // element オブジェクトをMapに変換する
@@ -154,7 +154,7 @@ export const Top = (): JSX.Element => {
   };
 
   const radioChange = (e: any): void => {
-    setPoplationType(e.target.id);
+    setPopulationComposition(e.target.id);
   };
 
   if (status === "loading") {
@@ -196,7 +196,7 @@ export const Top = (): JSX.Element => {
             type="radio"
             id="total"
             onChange={radioChange}
-            checked={poplationType === "total"}
+            checked={populationComposition === "total"}
           />
           <label htmlFor="total">総人口</label>
         </div>
@@ -206,7 +206,7 @@ export const Top = (): JSX.Element => {
             type="radio"
             id="young"
             onChange={radioChange}
-            checked={poplationType === "young"}
+            checked={populationComposition === "young"}
           />
           <label htmlFor="young">年少人口</label>
         </div>
@@ -216,7 +216,7 @@ export const Top = (): JSX.Element => {
             type="radio"
             id="workingAge"
             onChange={radioChange}
-            checked={poplationType === "workingAge"}
+            checked={populationComposition === "workingAge"}
           />
           <label htmlFor="workingAge">生産年齢人口</label>
         </div>
@@ -226,7 +226,7 @@ export const Top = (): JSX.Element => {
             type="radio"
             id="elderly"
             onChange={radioChange}
-            checked={poplationType === "elderly"}
+            checked={populationComposition === "elderly"}
           />
           <label htmlFor="elderly">老年人口</label>
         </div>
@@ -235,7 +235,7 @@ export const Top = (): JSX.Element => {
       <LineChart
         width={900}
         height={500}
-        data={prefecturePopulation[poplationType]}
+        data={prefecturePopulation[populationComposition]}
         margin={{
           top: 35,
           right: 35,
@@ -247,7 +247,7 @@ export const Top = (): JSX.Element => {
         <XAxis dataKey="year" />
         <YAxis dataKey="value" type="number" domain={[0, 15000000]} />
         {Object.keys(prefecturePopulation).length === 0 ||
-          Object.keys(prefecturePopulation[poplationType][0])
+          Object.keys(prefecturePopulation[populationComposition][0])
             .filter((pref) => {
               return pref !== "year";
             })

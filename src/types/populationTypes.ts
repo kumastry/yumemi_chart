@@ -3,12 +3,16 @@ export interface PrefecturePopulationByYear {
   [prefecture: string]: number;
 }
 
-export type PopulationType = "total" | "young" | "workingAge" | "elderly";
+export type PopulationCompositionType =
+  | "total"
+  | "young"
+  | "workingAge"
+  | "elderly";
 
 export type PrefecturePopulationByYearWithType = {
-  [key in PopulationType]: PrefecturePopulationByYear[];
+  [key in PopulationCompositionType]: PrefecturePopulationByYear[];
 };
 
 export type PrefecturePopulationWithIdx = {
-  [key in PopulationType]: 0 | 1 | 2 | 3;
+  [key in PopulationCompositionType]: 0 | 1 | 2 | 3;
 };

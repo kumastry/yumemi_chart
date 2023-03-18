@@ -1,5 +1,6 @@
 import React from "react";
 import { useFetchPrefectures } from "../../hooks/useFetchPrefectures";
+import prefColor from "../../assets/prefColor.json";
 
 import axios from "axios";
 import {
@@ -40,6 +41,8 @@ export const Top = (): JSX.Element => {
     workingAge: 2,
     elderly: 3,
   };
+
+  const prefectureColor: PrefectureColor = prefColor;
 
   // console.log(prefecturePopulation);
   const handleChange = (e: any): void => {
@@ -261,7 +264,7 @@ export const Top = (): JSX.Element => {
                 <Line
                   type="monotone"
                   dataKey={prefName}
-                  stroke="rgb(253, 153, 40)"
+                  stroke={prefectureColor[prefName]}
                   key={key}
                   isAnimationActive={false}
                 />

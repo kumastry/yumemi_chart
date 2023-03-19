@@ -4,6 +4,7 @@ import prefColor from "../../assets/prefColor.json";
 
 import axios from "axios";
 import { PopulationChart } from "../../components/PopulationChart";
+import { PopulationCompositionRadio } from "../../components/PopulationCompositionRadio";
 
 import type {
   PrefecturePopulationByYear,
@@ -145,10 +146,6 @@ export const Top = (): JSX.Element => {
     });
   };
 
-  const radioChange = (e: any): void => {
-    setPopulationComposition(e.target.id);
-  };
-
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -180,50 +177,10 @@ export const Top = (): JSX.Element => {
         </ul>
       </form>
 
-      <fieldset>
-        <legend>人口構成:</legend>
-
-        <div>
-          <input
-            type="radio"
-            id="total"
-            onChange={radioChange}
-            checked={populationComposition === "total"}
-          />
-          <label htmlFor="total">総人口</label>
-        </div>
-
-        <div>
-          <input
-            type="radio"
-            id="young"
-            onChange={radioChange}
-            checked={populationComposition === "young"}
-          />
-          <label htmlFor="young">年少人口</label>
-        </div>
-
-        <div>
-          <input
-            type="radio"
-            id="workingAge"
-            onChange={radioChange}
-            checked={populationComposition === "workingAge"}
-          />
-          <label htmlFor="workingAge">生産年齢人口</label>
-        </div>
-
-        <div>
-          <input
-            type="radio"
-            id="elderly"
-            onChange={radioChange}
-            checked={populationComposition === "elderly"}
-          />
-          <label htmlFor="elderly">老年人口</label>
-        </div>
-      </fieldset>
-
+      <PopulationCompositionRadio
+        populationComposition={populationComposition}
+        setPopulationComposition={setPopulationComposition}
+      />
       <PopulationChart
         prefecturePopulation={prefecturePopulation}
         populationComposition={populationComposition}

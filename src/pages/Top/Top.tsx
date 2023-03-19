@@ -5,6 +5,7 @@ import prefColor from "../../assets/prefColor.json";
 import axios from "axios";
 import { PopulationChart } from "../../components/PopulationChart";
 import { PopulationCompositionRadio } from "../../components/PopulationCompositionRadio";
+import { PrefecturesCheckBox } from "../../components/PrefecturesCheckBox";
 
 import type {
   PrefecturePopulationByYear,
@@ -157,26 +158,7 @@ export const Top = (): JSX.Element => {
   console.log(prefecturePopulation);
   return (
     <>
-      <form method="get">
-        <ul>
-          {data?.result.map((prefecture, key) => {
-            return (
-              <li key={key}>
-                <input
-                  type="checkbox"
-                  id={String(prefecture.prefCode)}
-                  name={prefecture.prefName}
-                  onChange={handleChange}
-                />
-                <label htmlFor={String(prefecture.prefCode)}>
-                  {prefecture.prefName}
-                </label>
-              </li>
-            );
-          })}
-        </ul>
-      </form>
-
+      <PrefecturesCheckBox data={data} handleChange={handleChange} />
       <PopulationCompositionRadio
         populationComposition={populationComposition}
         setPopulationComposition={setPopulationComposition}

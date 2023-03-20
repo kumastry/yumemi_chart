@@ -1,16 +1,7 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 import type { UseQueryResult } from "react-query";
-
-interface Prefecture {
-  prefCode: number;
-  prefName: string;
-}
-
-interface Prefectures {
-  message: string | null;
-  result: Prefecture[];
-}
+import type { Prefectures } from "../types/populationTypes";
 
 const fetchPrefectures = async (): Promise<Prefectures> => {
   const PrefectureData = await axios.get(

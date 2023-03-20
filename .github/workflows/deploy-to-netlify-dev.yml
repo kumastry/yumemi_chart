@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: 18.12.1
 
+
+      - name: create .env file
+        run: |
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
+          
       - run: npm ci
       
       - run: npm run build
@@ -31,7 +36,9 @@ jobs:
         with:
           publish-dir: './dist'
           production-branch: develop
-          github-deployment-environment: ${{ steps.github_deployment_environment.outputs.GITHUB_DEPLOYMENT_ENVIRONMENT }}
+
+          github-deployment-environment: develop
+
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions to Netlify in dev"
           enable-commit-comment: true

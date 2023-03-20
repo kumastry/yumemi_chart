@@ -1,0 +1,46 @@
+name: Build and Deploy to Netlify in prd
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+    
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+  deployments: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.12.1
+
+      - name: create .env file
+        run: |
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
+          
+      - run: npm ci
+      
+      - run: npm run build
+
+      # ( Build to ./dist or other directory... )
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.0.0
+        with:
+          publish-dir: './dist'
+          production-branch: main
+          github-deployment-environment: production
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions to Netlify in prd"
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRD_SITE_ID }}

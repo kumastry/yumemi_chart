@@ -1,7 +1,9 @@
-name: Build and Deploy to Netlify in dev
+name: Build and Deploy to Netlify in prd
 on:
   push:
-    branches: develop
+    branches: main
+  pull_request:
+    branches: main
     
 permissions:
   contents: write
@@ -20,7 +22,6 @@ jobs:
         with:
           node-version: 18.12.1
 
-
       - name: create .env file
         run: |
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
@@ -35,13 +36,11 @@ jobs:
         uses: nwtgck/actions-netlify@v2.0.0
         with:
           publish-dir: './dist'
-          production-branch: develop
-
-          github-deployment-environment: develop
-
+          production-branch: main
+          github-deployment-environment: production
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions to Netlify in dev"
+          deploy-message: "Deploy from GitHub Actions to Netlify in prd"
           enable-commit-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRD_SITE_ID }}

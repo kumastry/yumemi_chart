@@ -24,6 +24,13 @@ jobs:
       
       - run: npm run build
 
+    steps:
+      - name: Create dot env file
+      - shell: bash
+        run: |
+      touch .env
+      echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
+      
       # ( Build to ./dist or other directory... )
 
       - name: Deploy to Netlify
@@ -38,4 +45,3 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}

@@ -1,5 +1,6 @@
 import React from "react";
 import { type Prefectures } from "../../types/populationTypes";
+import PrefectruesCheckBox from "./PrefecturesCheckBox.module.css";
 
 interface Props {
   data: Prefectures | undefined;
@@ -13,7 +14,7 @@ export const PrefecturesCheckBox = ({
   return (
     <>
       <form method="get">
-        <ul>
+        <ul className={PrefectruesCheckBox.ul}>
           {data?.result.map((prefecture, key) => {
             return (
               <li key={key}>

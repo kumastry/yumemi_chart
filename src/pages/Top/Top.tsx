@@ -28,7 +28,6 @@ export const Top = (): JSX.Element => {
 
   const prefectureColor: PrefectureColor = prefColor;
 
-
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -39,17 +38,25 @@ export const Top = (): JSX.Element => {
 
   console.log(prefecturePopulation);
   return (
-    <>
-      <PrefecturesCheckBox data={data} handleChange={handleChange} />
-      <PopulationCompositionRadio
-        populationComposition={populationComposition}
-        setPopulationComposition={setPopulationComposition}
-      />
-      <PopulationChart
-        prefecturePopulation={prefecturePopulation}
-        populationComposition={populationComposition}
-        prefectureColor={prefectureColor}
-      />
-    </>
+    <div>
+      <section>
+        <PrefecturesCheckBox data={data} handleChange={handleChange} />
+      </section>
+
+      <section>
+        <PopulationCompositionRadio
+          populationComposition={populationComposition}
+          setPopulationComposition={setPopulationComposition}
+        />
+      </section>
+
+      <section>
+        <PopulationChart
+          prefecturePopulation={prefecturePopulation}
+          populationComposition={populationComposition}
+          prefectureColor={prefectureColor}
+        />
+      </section>
+    </div>
   );
 };

@@ -1,0 +1,19 @@
+.ul {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    padding-inline-start: 1rem;
+    padding-bottom: 1rem;
+}
+
+@media (max-width:520px) {
+    .ul {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding-inline-start: 1rem;
+        padding-bottom: 1rem;
+    }
+  }

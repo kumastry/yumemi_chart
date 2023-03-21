@@ -10,10 +10,13 @@ import {
   Legend,
   Line,
   LineChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+import { useResponsiveGraphAspectRatio } from "../../hooks/useResponsiveGraphAspectRatio";
 
 interface Props {
   prefecturePopulation: PrefecturePopulationByYearWithType;
@@ -26,42 +29,44 @@ export const PopulationChart = ({
   populationComposition,
   prefectureColor,
 }: Props): JSX.Element => {
+  const graphAspectRatio = useResponsiveGraphAspectRatio();
   return (
     <>
-      <LineChart
-        width={900}
-        height={500}
-        data={prefecturePopulation[populationComposition]}
-        margin={{
-          top: 35,
-          right: 35,
-          left: 35,
-          bottom: 35,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" />
-        <YAxis dataKey="value" type="number" domain={[0, 15000000]} />
-        {Object.keys(prefecturePopulation).length === 0 ||
-          Object.keys(prefecturePopulation[populationComposition][0])
-            .filter((pref) => {
-              return pref !== "year";
-            })
-            .map((prefName, key) => {
-              return (
-                <Line
-                  type="monotone"
-                  dataKey={prefName}
-                  stroke={prefectureColor[prefName]}
-                  key={key}
-                  isAnimationActive={false}
-                />
-              );
-            })}
-
-        <Legend />
-        <Tooltip />
-      </LineChart>
+      <ResponsiveContainer width="100%" aspect={graphAspectRatio}>
+        <LineChart
+          data={prefecturePopulation[populationComposition]?.filter(
+            (item) => item.year <= 2020
+          )}
+          margin={{
+            top: 50,
+            right: 15,
+            left: 30,
+            bottom: 10,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="year" type="number" domain={[1960, 2020]} />
+          <YAxis type="number" domain={[0, "auto"]} />
+          {Object.keys(prefecturePopulation).length === 0 ||
+            Object.keys(prefecturePopulation[populationComposition][0])
+              .filter((pref) => {
+                return pref !== "year";
+              })
+              .map((prefName, key) => {
+                return (
+                  <Line
+                    type="monotone"
+                    dataKey={prefName}
+                    stroke={prefectureColor[prefName]}
+                    key={key}
+                    isAnimationActive={false}
+                  />
+                );
+              })}
+          <Legend />
+          <Tooltip />
+        </LineChart>
+      </ResponsiveContainer>
     </>
   );
 };

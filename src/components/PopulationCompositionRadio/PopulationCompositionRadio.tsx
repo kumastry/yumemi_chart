@@ -1,5 +1,6 @@
 import React from "react";
 import { type PopulationCompositionType } from "../../types/populationTypes";
+import styles from "./PopulationCompositionRadio.module.css";
 
 const populationCmp = [
   { value: "total", text: "総人口" },
@@ -20,7 +21,7 @@ export const PopulationCompositionRadio = ({
   setPopulationComposition,
 }: Props): JSX.Element => {
   return (
-    <fieldset>
+    <fieldset className={styles.fieldset}>
       <legend>人口構成:</legend>
 
       {populationCmp.map((item, index) => {

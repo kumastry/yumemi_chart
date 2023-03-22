@@ -10,7 +10,8 @@ import axios from "axios";
 type handleChangeType = (e: any) => void;
 
 export const useCheckBoxPrefectures = (
-  poplationIdx: PrefecturePopulationWithIdx
+  poplationIdx: PrefecturePopulationWithIdx,
+  setIsError:any
 ): [PrefecturePopulationByYearWithType, handleChangeType] => {
   const [prefecturePopulation, setPrefecturePopulation] =
     React.useState<PrefecturePopulationByYearWithType>({} as any);
@@ -22,7 +23,6 @@ export const useCheckBoxPrefectures = (
       if (e.target.checked as boolean) {
         // チェックボックスを付ける
         // prefecturePopulationに選択した都道府県を追加
-        try {
           const response = await axios.get(
             `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
             {
@@ -32,6 +32,14 @@ export const useCheckBoxPrefectures = (
             }
           );
           // console.log(response.data.result.data);
+          //エラーが出ても200 okのところはここで例外を投げる
+          if(response.data.statusCode === "403") {
+            throw new Error("403 forbidden");
+          }
+
+          if(response.data.statusCode === "404") {
+            throw new Error("404 Not Found");
+          }
 
           const totalPopulation =
             response.data.result.data[poplationIdx.total].data;
@@ -95,9 +103,7 @@ export const useCheckBoxPrefectures = (
           });
 
           setPrefecturePopulation({ total, young, workingAge, elderly });
-        } catch (error) {
-          console.log(error);
-        }
+      
       } else {
         // チェックボックスを外す
         // prefecturePopulationに選択した都道府県を削除
@@ -127,7 +133,8 @@ export const useCheckBoxPrefectures = (
     };
 
     fetchPopulation().catch((err) => {
-      console.log(err);
+      setIsError(true);
+      console.error(err);
     });
   };
   return [prefecturePopulation, handleChange];

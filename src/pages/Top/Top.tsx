@@ -13,7 +13,7 @@ import type {
 } from "../../types/populationTypes";
 
 export const Top = (): JSX.Element => {
-  const { status, data } = useFetchPrefectures();
+  const { status, data,  } = useFetchPrefectures();
   const [populationComposition, setPopulationComposition] =
     React.useState<PopulationCompositionType>("total");
   const poplationIdx: PrefecturePopulationWithIdx = {
@@ -22,9 +22,10 @@ export const Top = (): JSX.Element => {
     workingAge: 2,
     elderly: 3,
   };
+  const [isError, setIsError] = React.useState<boolean>(false);
 
   const [prefecturePopulation, handleChange] =
-    useCheckBoxPrefectures(poplationIdx);
+    useCheckBoxPrefectures(poplationIdx, setIsError);
 
   const prefectureColor: PrefectureColor = prefColor;
 
@@ -32,8 +33,8 @@ export const Top = (): JSX.Element => {
     return <div>Loading...</div>;
   }
 
-  if (status === "error") {
-    return <div>Error</div>;
+  if (status === "error" || isError) {
+    return <div>予期せぬエラーが発生しました</div>;
   }
 
   console.log(prefecturePopulation);

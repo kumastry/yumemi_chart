@@ -5,11 +5,13 @@ import { CheckBox } from "../UIs/CheckBox";
 
 interface PrefecturesCheckBoxProps {
   data: Prefectures | undefined;
+  isCheckBoxDisabled : boolean
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const PrefecturesCheckBox = ({
   data,
+  isCheckBoxDisabled,
   handleChange,
 }: PrefecturesCheckBoxProps): JSX.Element => {
   return (
@@ -24,6 +26,7 @@ export const PrefecturesCheckBox = ({
                   value={prefecture.prefName}
                   text={prefecture.prefName}
                   handleChange={handleChange}
+                  isCheckBoxDisabled = {isCheckBoxDisabled}
                 />
               </li>
             );

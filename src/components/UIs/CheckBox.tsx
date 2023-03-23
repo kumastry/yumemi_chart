@@ -1,11 +1,11 @@
 import React from "react";
 
-type CheckBoxProps = {
+interface CheckBoxProps {
   id: string;
   value: string;
   text: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
 export const CheckBox = ({
   id,

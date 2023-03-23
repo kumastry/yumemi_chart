@@ -11,7 +11,7 @@ type handleChangeType = (e: any) => void;
 
 export const useCheckBoxPrefectures = (
   poplationIdx: PrefecturePopulationWithIdx,
-  setIsError:any
+  setIsError: any
 ): [PrefecturePopulationByYearWithType, handleChangeType] => {
   const [prefecturePopulation, setPrefecturePopulation] =
     React.useState<PrefecturePopulationByYearWithType>({} as any);
@@ -23,87 +23,86 @@ export const useCheckBoxPrefectures = (
       if (e.target.checked as boolean) {
         // チェックボックスを付ける
         // prefecturePopulationに選択した都道府県を追加
-          const response = await axios.get(
-            `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
-            {
-              headers: {
-                "X-API-KEY": import.meta.env.VITE_API_KEY,
-              },
-            }
-          );
-          // console.log(response.data.result.data);
-          //エラーが出ても200 okのところはここで例外を投げる
-          if(response.data.statusCode === "403") {
-            throw new Error("403 forbidden");
+        const response = await axios.get(
+          `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
+          {
+            headers: {
+              "X-API-KEY": import.meta.env.VITE_API_KEY,
+            },
           }
+        );
+        // console.log(response.data.result.data);
+        // エラーが出ても200 okのところはここで例外を投げる
+        if (response.data.statusCode === "403") {
+          throw new Error("403 forbidden");
+        }
 
-          if(response.data.statusCode === "404") {
-            throw new Error("404 Not Found");
-          }
+        if (response.data.statusCode === "404") {
+          throw new Error("404 Not Found");
+        }
 
-          const totalPopulation =
-            response.data.result.data[poplationIdx.total].data;
-          const youngPopulation =
-            response.data.result.data[poplationIdx.young].data;
-          const workingAgePopulation =
-            response.data.result.data[poplationIdx.workingAge].data;
-          const elderlyPopulation =
-            response.data.result.data[poplationIdx.elderly].data;
+        const totalPopulation =
+          response.data.result.data[poplationIdx.total].data;
+        const youngPopulation =
+          response.data.result.data[poplationIdx.young].data;
+        const workingAgePopulation =
+          response.data.result.data[poplationIdx.workingAge].data;
+        const elderlyPopulation =
+          response.data.result.data[poplationIdx.elderly].data;
 
-          const total: PrefecturePopulationByYear[] = totalPopulation.map(
-            (element: any, key: any) => {
-              const obj =
-                Object.keys(prefecturePopulation).length === 0
-                  ? {}
-                  : prefecturePopulation.total[key];
-              return {
-                ...obj,
-                year: element.year,
-                [e.target.name]: element.value,
-              };
-            }
-          );
-
-          const young = youngPopulation.map((element: any, key: any) => {
+        const total: PrefecturePopulationByYear[] = totalPopulation.map(
+          (element: any, key: any) => {
             const obj =
               Object.keys(prefecturePopulation).length === 0
                 ? {}
-                : prefecturePopulation.young[key];
+                : prefecturePopulation.total[key];
             return {
               ...obj,
               year: element.year,
               [e.target.name]: element.value,
             };
-          });
+          }
+        );
 
-          const workingAge = workingAgePopulation.map(
-            (element: any, key: any) => {
-              const obj =
-                Object.keys(prefecturePopulation).length === 0
-                  ? {}
-                  : prefecturePopulation.workingAge[key];
-              return {
-                ...obj,
-                year: element.year,
-                [e.target.name]: element.value,
-              };
-            }
-          );
+        const young = youngPopulation.map((element: any, key: any) => {
+          const obj =
+            Object.keys(prefecturePopulation).length === 0
+              ? {}
+              : prefecturePopulation.young[key];
+          return {
+            ...obj,
+            year: element.year,
+            [e.target.name]: element.value,
+          };
+        });
 
-          const elderly = elderlyPopulation.map((element: any, key: any) => {
+        const workingAge = workingAgePopulation.map(
+          (element: any, key: any) => {
             const obj =
               Object.keys(prefecturePopulation).length === 0
                 ? {}
-                : prefecturePopulation.elderly[key];
+                : prefecturePopulation.workingAge[key];
             return {
               ...obj,
               year: element.year,
               [e.target.name]: element.value,
             };
-          });
+          }
+        );
 
-          setPrefecturePopulation({ total, young, workingAge, elderly });
-      
+        const elderly = elderlyPopulation.map((element: any, key: any) => {
+          const obj =
+            Object.keys(prefecturePopulation).length === 0
+              ? {}
+              : prefecturePopulation.elderly[key];
+          return {
+            ...obj,
+            year: element.year,
+            [e.target.name]: element.value,
+          };
+        });
+
+        setPrefecturePopulation({ total, young, workingAge, elderly });
       } else {
         // チェックボックスを外す
         // prefecturePopulationに選択した都道府県を削除

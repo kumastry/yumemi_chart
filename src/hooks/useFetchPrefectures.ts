@@ -13,11 +13,11 @@ const fetchPrefectures = async (): Promise<Prefectures> => {
     }
   );
 
-  if(PrefectureData.data.statusCode === "403") {
+  if (PrefectureData.data.statusCode === "403") {
     throw new Error("403 Forbidden");
   }
 
-  if(PrefectureData.data.statusCode === "404") {
+  if (PrefectureData.data.statusCode === "404") {
     throw new Error("404 Not Found");
   }
 

@@ -4,7 +4,7 @@ interface CheckBoxProps {
   id: string;
   value: string;
   text: string;
-  isCheckBoxDisabled:boolean;
+  isCheckBoxDisabled: boolean;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -17,7 +17,13 @@ export const CheckBox = ({
 }: CheckBoxProps): JSX.Element => {
   return (
     <>
-      <input type="checkbox" id={id} value={value} onChange={handleChange} disabled = {isCheckBoxDisabled} />
+      <input
+        type="checkbox"
+        id={id}
+        value={value}
+        onChange={handleChange}
+        disabled={isCheckBoxDisabled}
+      />
       <label htmlFor={id}>{text}</label>
     </>
   );

@@ -24,10 +24,8 @@ export const Top = (): JSX.Element => {
   };
   const [isError, setIsError] = React.useState<boolean>(false);
 
-  const {prefecturePopulation, handleCheckBoxChange, isCheckBoxDisabled} = useCheckBoxPrefectures(
-    poplationIdx,
-    setIsError
-  );
+  const { prefecturePopulation, handleCheckBoxChange, isCheckBoxDisabled } =
+    useCheckBoxPrefectures(poplationIdx, setIsError);
 
   const prefectureColor: PrefectureColor = prefColor;
 
@@ -43,7 +41,11 @@ export const Top = (): JSX.Element => {
   return (
     <div>
       <section>
-        <PrefecturesCheckBox data={data} handleChange={handleCheckBoxChange} isCheckBoxDisabled = {isCheckBoxDisabled} />
+        <PrefecturesCheckBox
+          data={data}
+          handleChange={handleCheckBoxChange}
+          isCheckBoxDisabled={isCheckBoxDisabled}
+        />
       </section>
 
       <section>

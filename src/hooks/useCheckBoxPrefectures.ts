@@ -7,7 +7,7 @@ import type {
 } from "../types/populationTypes";
 import axios from "axios";
 
-type UseCheckBoxPrefectures = {
+interface UseCheckBoxPrefectures {
   prefecturePopulation: PrefecturePopulationByYearWithType;
   isCheckBoxDisabled: boolean;
   handleCheckBoxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,7 +22,9 @@ export const useCheckBoxPrefectures = (
 
   const [isCheckBoxDisabled, SetIsCheckBoxDisabled] = React.useState(false);
 
-  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleCheckBoxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const fetchPopulation = async (): Promise<void> => {
       const prefCode: string = event.target.id;
       if (event.target.checked) {
@@ -48,28 +50,32 @@ export const useCheckBoxPrefectures = (
           throw new Error("404 Not Found");
         }
 
-        const resData2Obj = (resData:any):PrefecturePopulationByYear[] => {
-          return (
-            resData.map(
-              (item: any, key: number) => {
-                const obj =
-                  Object.keys(prefecturePopulation).length === 0
-                    ? {}
-                    : prefecturePopulation.total[key];
-                return {
-                  ...obj,
-                  year: item.year,
-                  [event.target.value]: item.value,
-                };
-              }
-            )
-          );
-        }
+        const resData2Obj = (resData: any): PrefecturePopulationByYear[] => {
+          return resData.map((item: any, key: number) => {
+            const obj =
+              Object.keys(prefecturePopulation).length === 0
+                ? {}
+                : prefecturePopulation.total[key];
+            return {
+              ...obj,
+              year: item.year,
+              [event.target.value]: item.value,
+            };
+          });
+        };
 
-        const total = resData2Obj(response.data.result.data[poplationIdx.total].data);
-        const young = resData2Obj(response.data.result.data[poplationIdx.young].data);
-        const workingAge = resData2Obj(response.data.result.data[poplationIdx.workingAge].data);
-        const elderly = resData2Obj(response.data.result.data[poplationIdx.elderly].data);
+        const total = resData2Obj(
+          response.data.result.data[poplationIdx.total].data
+        );
+        const young = resData2Obj(
+          response.data.result.data[poplationIdx.young].data
+        );
+        const workingAge = resData2Obj(
+          response.data.result.data[poplationIdx.workingAge].data
+        );
+        const elderly = resData2Obj(
+          response.data.result.data[poplationIdx.elderly].data
+        );
 
         setPrefecturePopulation({ total, young, workingAge, elderly });
       } else {
@@ -105,5 +111,5 @@ export const useCheckBoxPrefectures = (
       console.error(err);
     });
   };
-  return {prefecturePopulation, handleCheckBoxChange, isCheckBoxDisabled};
+  return { prefecturePopulation, handleCheckBoxChange, isCheckBoxDisabled };
 };

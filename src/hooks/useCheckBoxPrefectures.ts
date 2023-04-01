@@ -50,12 +50,15 @@ export const useCheckBoxPrefectures = (
           throw new Error("404 Not Found");
         }
 
-        const resData2Obj = (resData: any): PrefecturePopulationByYear[] => {
+        const resData2Obj = (
+          resData: any,
+          populationCmp: PopulationCompositionType
+        ): PrefecturePopulationByYear[] => {
           return resData.map((item: any, key: number) => {
             const obj =
               Object.keys(prefecturePopulation).length === 0
                 ? {}
-                : prefecturePopulation.total[key];
+                : prefecturePopulation[populationCmp][key];
             return {
               ...obj,
               year: item.year,
@@ -65,16 +68,20 @@ export const useCheckBoxPrefectures = (
         };
 
         const total = resData2Obj(
-          response.data.result.data[poplationIdx.total].data
+          response.data.result.data[poplationIdx.total].data,
+          "total"
         );
         const young = resData2Obj(
-          response.data.result.data[poplationIdx.young].data
+          response.data.result.data[poplationIdx.young].data,
+          "young"
         );
         const workingAge = resData2Obj(
-          response.data.result.data[poplationIdx.workingAge].data
+          response.data.result.data[poplationIdx.workingAge].data,
+          "workingAge"
         );
         const elderly = resData2Obj(
-          response.data.result.data[poplationIdx.elderly].data
+          response.data.result.data[poplationIdx.elderly].data,
+          "elderly"
         );
 
         setPrefecturePopulation({ total, young, workingAge, elderly });

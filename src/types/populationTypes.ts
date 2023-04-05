@@ -9,13 +9,15 @@ export type PopulationCompositionType =
   | "workingAge"
   | "elderly";
 
-export type PrefecturePopulationByYearWithType = {
-  [key in PopulationCompositionType]: PrefecturePopulationByYear[];
-};
+export type PrefecturePopulationByYearWithType = Record<
+  PopulationCompositionType,
+  PrefecturePopulationByYear[]
+>;
 
-export type PrefecturePopulationWithIdx = {
-  [key in PopulationCompositionType]: 0 | 1 | 2 | 3;
-};
+export type PrefecturePopulationWithIdx = Record<
+  PopulationCompositionType,
+  0 | 1 | 2 | 3
+>;
 
 export interface Prefecture {
   prefCode: number;

@@ -1,16 +1,19 @@
 import React from "react";
 import { type Prefectures } from "../../types/populationTypes";
 import PrefectruesCheckBox from "./PrefecturesCheckBox.module.css";
+import { CheckBox } from "../UIs/CheckBox";
 
-interface Props {
+interface PrefecturesCheckBoxProps {
   data: Prefectures | undefined;
+  isCheckBoxDisabled: boolean;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const PrefecturesCheckBox = ({
   data,
+  isCheckBoxDisabled,
   handleChange,
-}: Props): JSX.Element => {
+}: PrefecturesCheckBoxProps): JSX.Element => {
   return (
     <>
       <form method="get">
@@ -18,15 +21,13 @@ export const PrefecturesCheckBox = ({
           {data?.result.map((prefecture, key) => {
             return (
               <li key={key}>
-                <input
-                  type="checkbox"
+                <CheckBox
                   id={String(prefecture.prefCode)}
-                  name={prefecture.prefName}
-                  onChange={handleChange}
+                  value={prefecture.prefName}
+                  text={prefecture.prefName}
+                  handleChange={handleChange}
+                  isCheckBoxDisabled={isCheckBoxDisabled}
                 />
-                <label htmlFor={String(prefecture.prefCode)}>
-                  {prefecture.prefName}
-                </label>
               </li>
             );
           })}

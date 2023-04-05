@@ -1,8 +1,14 @@
 import React from "react";
 import { type PopulationCompositionType } from "../../types/populationTypes";
 import styles from "./PopulationCompositionRadio.module.css";
+import { Radio } from "./../UIs/Radio";
 
-const populationCmp = [
+type PopulationCmpType = Array<{
+  value: PopulationCompositionType;
+  text: string;
+}>;
+
+const populationCmp: PopulationCmpType = [
   { value: "total", text: "総人口" },
   { value: "young", text: "年少人口" },
   { value: "workingAge", text: "生産年齢人口" },
@@ -27,16 +33,14 @@ export const PopulationCompositionRadio = ({
       {populationCmp.map((item, index) => {
         return (
           <div key={index}>
-            <input
-              type="radio"
-              id={item.value}
+            <Radio
               value={item.value}
-              onChange={(e: any) => {
-                setPopulationComposition(e.target.value);
+              text={item.text}
+              checkedValue={populationComposition}
+              handleRadioChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPopulationComposition(item.value);
               }}
-              checked={populationComposition === item.value}
             />
-            <label htmlFor={item.value}>{item.text}</label>
           </div>
         );
       })}

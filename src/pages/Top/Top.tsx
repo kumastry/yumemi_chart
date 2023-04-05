@@ -37,7 +37,6 @@ export const Top = (): JSX.Element => {
     return <div>予期せぬエラーが発生しました</div>;
   }
 
-  console.log(prefecturePopulation);
   return (
     <div>
       <section>
